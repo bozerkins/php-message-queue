@@ -1,0 +1,12 @@
+{
+  "name": "bozerkins/php-message-stack",
+  "description": "a simple message stack on php using files",
+  "minimum-stability": "stable",
+  "license": "open source",
+  "authors": [
+    {
+      "name": "Bogdans Ozerkins",
+      "email": "b.ozerkins@gmail.com"
+    }
+  ]
+}
