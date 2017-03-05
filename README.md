@@ -22,6 +22,9 @@ $queue = new \MessageStack\Queue(
 ```
 
 You can write to queue and read from queue. These are the basic operations.
+
+> NOTE that you can use this with multiple processes. The Message Stack uses flock(), so there shouldn't be a problem.
+
 ```php
 # write two messages
 $queue->write('my message');
@@ -33,6 +36,7 @@ print_r($queue->read(2));
 
 For several optimization reasons the queue does not delete messages by itself.
 To free some disk space from already read messages just run this command from time to time.
+Please note that this operation is disk write heavy (when lot's of messages are being passed)
 ```php
 $queue->recycle();
 ```
