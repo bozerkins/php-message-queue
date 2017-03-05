@@ -42,7 +42,7 @@ $queue->recycle();
 ```
 
 To optimize reads from the queue the library uses a caching construction. 
-Messages are recorded into file system in chunks, by default single chunk size is 100 messages.
+Messages are added into file system based cache in chunks, by default single chunk size is 100 messages.
 If you intend to read more than 100 messages from the queue at once please change the configuration option 'rotate_amount' to a bigger number.
 ```php
 $queue = new \MessageStack\Queue(
