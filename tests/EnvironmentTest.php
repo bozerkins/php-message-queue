@@ -69,7 +69,7 @@ class EnvironmentTest extends BaseTest
     }
 
     /**
-     * @expectedException ErrorException
+     * @expectedException \ErrorException
      */
     public function testEnvironmentValidationCompleteFailure()
     {
@@ -80,7 +80,7 @@ class EnvironmentTest extends BaseTest
     }
 
     /**
-     * @expectedException ErrorException
+     * @expectedException \ErrorException
      */
     public function testEnvironmentValidationPartialFailure()
     {
