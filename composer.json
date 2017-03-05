@@ -1,5 +1,5 @@
 {
-  "name": "bozerkins/php-message-stack",
+  "name": "bozerkins/php-message-queue",
   "description": "a simple message stack on php using files",
   "minimum-stability": "stable",
   "license": "open source",

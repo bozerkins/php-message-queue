@@ -1,10 +1,10 @@
-# PHP Message Stack
+# PHP Message Queue
 A simple php implementation of message stack (or message queue) which 
 can write messages and read messages in a FIFO manner.
 
 ## Installation
 ```sh
-composer require bozerkins/php-message-stack
+composer require bozerkins/php-message-queue
 ```
 
 ## Creating a queue
