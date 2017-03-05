@@ -6,7 +6,7 @@
  * Time: 22:23
  */
 
-namespace MessageStack;
+namespace MessageQueue;
 
 
 use Symfony\Component\OptionsResolver\OptionsResolver;

@@ -6,7 +6,7 @@
  * Time: 22:04
  */
 
-namespace MessageStack;
+namespace MessageQueue;
 
 class Queue
 {

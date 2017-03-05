@@ -1,6 +1,6 @@
 {
   "name": "bozerkins/php-message-queue",
-  "description": "a simple message stack on php using files",
+  "description": "a simple message queue on php using files",
   "minimum-stability": "stable",
   "license": "open source",
   "authors": [
@@ -10,10 +10,10 @@
     }
   ],
   "autoload": {
-    "psr-4": {"MessageStack\\": "src/"}
+    "psr-4": {"MessageQueue\\": "src/"}
   },
   "autoload-dev": {
-    "psr-4": { "MessageStack\\Tests\\": "tests/" }
+    "psr-4": { "MessageQueue\\Tests\\": "tests/" }
   },
   "require-dev": {
     "phpunit/phpunit": "5.5.*",

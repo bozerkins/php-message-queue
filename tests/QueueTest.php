@@ -7,7 +7,7 @@
  * Time: 21:43
  */
 
-namespace MessageStack\Tests;
+namespace MessageQueue\Tests;
 
 class QueueTest extends BaseTest
 {

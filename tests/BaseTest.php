@@ -7,7 +7,7 @@
  * Time: 21:43
  */
 
-namespace MessageStack\Tests;
+namespace MessageQueue\Tests;
 
 abstract class BaseTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,7 +26,7 @@ abstract class BaseTest extends \PHPUnit_Framework_TestCase
 
     protected function makeEnvironment()
     {
-        return new \MessageStack\Environment(
+        return new \MessageQueue\Environment(
             [
                 'dir' => $this->dir,
                 'queue' => $this->queue
@@ -34,9 +34,9 @@ abstract class BaseTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    protected function makeQueue(\MessageStack\Environment $environment)
+    protected function makeQueue(\MessageQueue\Environment $environment)
     {
-        return new \MessageStack\Queue(
+        return new \MessageQueue\Queue(
             $environment
         );
     }

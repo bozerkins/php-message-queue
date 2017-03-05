@@ -7,11 +7,11 @@
  * Time: 21:43
  */
 
-namespace MessageStack\Tests;
+namespace MessageQueue\Tests;
 
 class EnvironmentTest extends BaseTest
 {
-    protected function assertMessageStackEnvironmentPresence()
+    protected function assertMessageQueueEnvironmentPresence()
     {
         $this->assertTrue(is_dir($this->dir));
         $this->assertTrue(is_dir($this->dir . '/' . $this->queue));
@@ -19,7 +19,7 @@ class EnvironmentTest extends BaseTest
         $this->assertTrue(is_file($this->dir . '/' . $this->queue . '/' . 'rotate_pointer.txt'));
         $this->assertTrue(is_file($this->dir . '/' . $this->queue . '/' . 'write.txt'));
     }
-    protected function assertMessageStackEnvironmentAbsence()
+    protected function assertMessageQueueEnvironmentAbsence()
     {
         $this->assertTrue(!is_dir($this->dir . '/' . $this->queue));
         $this->assertTrue(!is_file($this->dir . '/' . $this->queue . '/' . 'read.txt'));
@@ -31,16 +31,16 @@ class EnvironmentTest extends BaseTest
     {
         $env = $this->makeEnvironment();
         $env->create();
-        $this->assertMessageStackEnvironmentPresence();
+        $this->assertMessageQueueEnvironmentPresence();
     }
 
     public function testEnvironmentDoubleCreation()
     {
         $env = $this->makeEnvironment();
         $env->create();
-        $this->assertMessageStackEnvironmentPresence();
+        $this->assertMessageQueueEnvironmentPresence();
         $env->create();
-        $this->assertMessageStackEnvironmentPresence();
+        $this->assertMessageQueueEnvironmentPresence();
     }
 
     public function testEnvironmentRemoval()
@@ -48,7 +48,7 @@ class EnvironmentTest extends BaseTest
         $env = $this->makeEnvironment();
         $env->create();
         $env->remove();
-        $this->assertMessageStackEnvironmentAbsence();
+        $this->assertMessageQueueEnvironmentAbsence();
     }
 
     public function testEnvironmentDoubleRemoval()
@@ -56,9 +56,9 @@ class EnvironmentTest extends BaseTest
         $env = $this->makeEnvironment();
         $env->create();
         $env->remove();
-        $this->assertMessageStackEnvironmentAbsence();
+        $this->assertMessageQueueEnvironmentAbsence();
         $env->remove();
-        $this->assertMessageStackEnvironmentAbsence();
+        $this->assertMessageQueueEnvironmentAbsence();
     }
 
     public function testEnvironmentValidationSuccess()
@@ -114,6 +114,6 @@ class EnvironmentTest extends BaseTest
             unlink($file);
         }
         $env->remove();
-        $this->assertMessageStackEnvironmentAbsence();
+        $this->assertMessageQueueEnvironmentAbsence();
     }
 }

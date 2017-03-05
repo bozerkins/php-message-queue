@@ -1,5 +1,5 @@
 # PHP Message Queue
-A simple php implementation of message stack (or message queue) which 
+A simple php implementation of message queue (or message queue) which 
 can write messages and read messages in a FIFO manner.
 
 ## Installation
@@ -11,8 +11,8 @@ composer require bozerkins/php-message-queue
 To define a queue you first need to define some environment configurations.
 An environment of a queue messaging system defined what folders will be used for operations.
 ```php
-$queue = new \MessageStack\Queue(
-    new \MessageStack\Environment(
+$queue = new \MessageQueue\Queue(
+    new \MessageQueue\Environment(
         [
             'dir' => '/var/my-queue-folder',
             'queue' => 'my-queue'
@@ -23,7 +23,7 @@ $queue = new \MessageStack\Queue(
 
 You can write to queue and read from queue. These are the basic operations.
 
-> NOTE that you can use this with multiple processes. The Message Stack uses flock(), so there shouldn't be a problem.
+> NOTE that you can use this with multiple processes. The Message Queue uses flock(), so there shouldn't be a problem.
 
 ```php
 # write two messages
@@ -45,8 +45,8 @@ To optimize reads from the queue the library uses a caching construction.
 Messages are added into file system based cache in chunks, by default single chunk size is 100 messages.
 If you intend to read more than 100 messages from the queue at once please change the configuration option 'rotate_amount' to a bigger number.
 ```php
-$queue = new \MessageStack\Queue(
-    new \MessageStack\Environment(
+$queue = new \MessageQueue\Queue(
+    new \MessageQueue\Environment(
         [
             'dir' => '/var/my-queue-folder',
             'queue' => 'my-queue',
