@@ -2,7 +2,7 @@
 A simple php implementation of message stack (or message queue) which 
 can write messages and read messages in a FIFO manner.
 
-## Instalation
+## Installation
 ```sh
 composer require bozerkins/php-message-stack
 ```
