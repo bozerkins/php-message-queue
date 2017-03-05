@@ -8,5 +8,18 @@
       "name": "Bogdans Ozerkins",
       "email": "b.ozerkins@gmail.com"
     }
-  ]
+  ],
+  "autoload": {
+    "psr-4": {"MessageStack\\": "src/"}
+  },
+  "autoload-dev": {
+    "psr-4": { "MessageStack\\Tests\\": "tests/" }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "5.5.*",
+    "symfony/var-dumper": "^3.2"
+  },
+  "require": {
+    "symfony/options-resolver": "^3.2"
+  }
 }
