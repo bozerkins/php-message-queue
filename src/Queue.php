@@ -68,7 +68,7 @@ class Queue
         fclose($f);
     }
 
-    public function read(int $amount)
+    public function read(int $amount) : array
     {
         $messages = $this->messages($amount);
         $left = $amount - count($messages);
@@ -85,7 +85,50 @@ class Queue
         return $messages;
     }
 
-    private function messages(int $amount)
+    public function recycle()
+    {
+        $f = fopen($this->env->rotateFile(), 'r+');
+        flock($f, LOCK_EX);
+
+        $seek = fgets($f);
+        if ($seek === false) {
+            flock($f, LOCK_UN);
+            fclose($f);
+            return;
+        }
+
+
+        $f2 = fopen($this->env->writeFile(), 'r+');
+        flock($f2, LOCK_EX);
+        fseek($f2, $seek);
+
+        $readSeek = null;
+        $writeSeek = 0;
+        while(($line = fgets($f2)) !== false) {
+
+            $readSeek = ftell($f2);
+
+            fseek($f2, $writeSeek);
+            fwrite($f2, $line);
+
+            $writeSeek = ftell($f2);
+            fseek($f2, $readSeek);
+        }
+
+        ftruncate($f2, $writeSeek);
+        rewind($f2);
+
+        flock($f2, LOCK_UN);
+        fclose($f2);
+
+        ftruncate($f, 0);
+        rewind($f);
+
+        flock($f, LOCK_UN);
+        fclose($f);
+    }
+
+    private function messages(int $amount) : array
     {
         $f = fopen($this->env->readFile(), 'r+');
         flock($f, LOCK_EX);
@@ -131,48 +174,5 @@ class Queue
             },
             $lines
         );
-    }
-
-    public function recycle()
-    {
-        $f = fopen($this->env->rotateFile(), 'r+');
-        flock($f, LOCK_EX);
-
-        $seek = fgets($f);
-        if ($seek === false) {
-            flock($f, LOCK_UN);
-            fclose($f);
-            return;
-        }
-
-
-        $f2 = fopen($this->env->writeFile(), 'r+');
-        flock($f2, LOCK_EX);
-        fseek($f2, $seek);
-
-        $readSeek = null;
-        $writeSeek = 0;
-        while(($line = fgets($f2)) !== false) {
-
-            $readSeek = ftell($f2);
-
-            fseek($f2, $writeSeek);
-            fwrite($f2, $line);
-
-            $writeSeek = ftell($f2);
-            fseek($f2, $readSeek);
-        }
-
-        ftruncate($f2, $writeSeek);
-        rewind($f2);
-
-        flock($f2, LOCK_UN);
-        fclose($f2);
-
-        ftruncate($f, 0);
-        rewind($f);
-
-        flock($f, LOCK_UN);
-        fclose($f);
     }
 }
