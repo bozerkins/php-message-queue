@@ -27,8 +27,12 @@ You can write to queue and read from queue. These are the basic operations.
 
 ```php
 # write two messages
-$queue->write('my message');
-$queue->write('my second message');
+$queue->write(
+    [
+        'my message', 
+        'my second message'
+    ]
+);
 
 # read two messages
 print_r($queue->read(2));
