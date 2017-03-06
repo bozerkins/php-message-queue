@@ -17,11 +17,16 @@ class Queue
         $this->env = $env;
     }
 
-    public function write(string $message)
+    public function write(array $messages)
     {
+        if (!$messages) {
+            return;
+        }
         $f = fopen($this->env->writeFile(), 'a');
         flock($f, LOCK_EX);
-        fwrite($f, $message . PHP_EOL);
+        foreach($messages as $message) {
+            fwrite($f, (string) $message . PHP_EOL);
+        }
         flock($f, LOCK_UN);
         fclose($f);
     }

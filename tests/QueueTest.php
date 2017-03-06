@@ -28,7 +28,7 @@ class QueueTest extends BaseTest
         $env = $this->makeEnvironment();
         $queue = $this->makeQueue($env);
         $message = getmypid() . ':' . microtime(true);
-        $queue->write($message);
+        $queue->write([$message]);
         $this->assertEquals(
             $message . PHP_EOL,
             file_get_contents($env->writeFile())
@@ -41,7 +41,7 @@ class QueueTest extends BaseTest
 
         $queue = $this->makeQueue($env);
         $message1 = 'm1' . getmypid() . ':' . microtime(true);
-        $queue->write($message1);
+        $queue->write([$message1]);
         $queue->rotate(1);
         $this->assertEquals(
             $message1 . PHP_EOL,
@@ -57,9 +57,7 @@ class QueueTest extends BaseTest
         $message1 = 'm1' . getmypid() . ':' . microtime(true);
         $message2 = 'm2' . getmypid() . ':' . microtime(true);
         $message3 = 'm3' . getmypid() . ':' . microtime(true);
-        $queue->write($message1);
-        $queue->write($message2);
-        $queue->write($message3);
+        $queue->write([$message1, $message2, $message3]);
         $queue->rotate(3);
         $this->assertEquals(
             $message3 . PHP_EOL . $message2 . PHP_EOL . $message1 . PHP_EOL ,
@@ -75,9 +73,7 @@ class QueueTest extends BaseTest
         $message1 = 'm1' . getmypid() . ':' . microtime(true);
         $message2 = 'm2' . getmypid() . ':' . microtime(true);
         $message3 = 'm3' . getmypid() . ':' . microtime(true);
-        $queue->write($message1);
-        $queue->write($message2);
-        $queue->write($message3);
+        $queue->write([$message1, $message2, $message3]);
 
         $queue->rotate(3);
 
@@ -95,9 +91,7 @@ class QueueTest extends BaseTest
         $message1 = 'm1' . getmypid() . ':' . microtime(true);
         $message2 = 'm2' . getmypid() . ':' . microtime(true);
         $message3 = 'm3' . getmypid() . ':' . microtime(true);
-        $queue->write($message1);
-        $queue->write($message2);
-        $queue->write($message3);
+        $queue->write([$message1, $message2, $message3]);
 
         $result = $queue->read(1);
         $this->assertTrue(is_array($result));
@@ -124,10 +118,7 @@ class QueueTest extends BaseTest
         $message2 = 'm2' . getmypid() . ':' . microtime(true);
         $message3 = 'm3' . getmypid() . ':' . microtime(true);
         $message4 = 'm4' . getmypid() . ':' . microtime(true);
-        $queue->write($message1);
-        $queue->write($message2);
-        $queue->write($message3);
-        $queue->write($message4);
+        $queue->write([$message1, $message2, $message3, $message4]);
 
         $result = $queue->read(2);
         $this->assertTrue(is_array($result));
@@ -148,8 +139,7 @@ class QueueTest extends BaseTest
         $queue = $this->makeQueue($env);
         $message1 = 'm1' . getmypid() . ':' . microtime(true);
         $message2 = 'm2' . getmypid() . ':' . microtime(true);
-        $queue->write($message1);
-        $queue->write($message2);
+        $queue->write([$message1, $message2]);
 
         $result = $queue->read(2);
         $this->assertTrue(is_array($result));
@@ -159,8 +149,7 @@ class QueueTest extends BaseTest
 
         $message3 = 'm3' . getmypid() . ':' . microtime(true);
         $message4 = 'm4' . getmypid() . ':' . microtime(true);
-        $queue->write($message3);
-        $queue->write($message4);
+        $queue->write([$message3, $message4]);
 
         $result = $queue->read(2);
         $this->assertTrue(is_array($result));
@@ -176,8 +165,7 @@ class QueueTest extends BaseTest
         $queue = $this->makeQueue($env);
         $message1 = 'm1' . getmypid() . ':' . microtime(true);
         $message2 = 'm2' . getmypid() . ':' . microtime(true);
-        $queue->write($message1);
-        $queue->write($message2);
+        $queue->write([$message1, $message2]);
 
         $result = $queue->read(2);
         $this->assertTrue(is_array($result));
@@ -187,8 +175,7 @@ class QueueTest extends BaseTest
 
         $message3 = 'm3' . getmypid() . ':' . microtime(true);
         $message4 = 'm4' . getmypid() . ':' . microtime(true);
-        $queue->write($message3);
-        $queue->write($message4);
+        $queue->write([$message3, $message4]);
 
         $result = $queue->read(2);
         $this->assertTrue(is_array($result));
@@ -198,8 +185,7 @@ class QueueTest extends BaseTest
 
         $message5 = 'm5' . getmypid() . ':' . microtime(true);
         $message6 = 'm6' . getmypid() . ':' . microtime(true);
-        $queue->write($message5);
-        $queue->write($message6);
+        $queue->write([$message5, $message6]);
 
         $queue->recycle();
 
