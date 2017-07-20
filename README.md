@@ -17,7 +17,7 @@ $queue = new \MessageQueue\Queue(
             'dir' => '/var/my-queue-folder',
             'queue' => 'my-queue'
         ]
-    );
+    )
 );
 ```
 
