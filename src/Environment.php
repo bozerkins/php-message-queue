@@ -1,15 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: bogdans
- * Date: 17.4.3
- * Time: 22:23
- */
 
 namespace MessageQueue;
 
-
-use Exception\FileCreateError;
+use MessageQueue\Exception\FileCreateError;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Environment
@@ -69,19 +62,23 @@ class Environment
     {
         $queueDir = $this->queueDir();
         if (!@mkdir($queueDir, 0775, true) && !is_dir($queueDir)) {
-            throw new FileCreateError(error_get_last());
+            $error = error_get_last();
+            throw new FileCreateError( " {$error['message']}\n {$error['file']}:{$error['line']}", (int)$error['type']);
         }
         $readFile = $this->readFile();
         if (!is_file($readFile) && !@touch($readFile)) {
-            throw new FileCreateError(error_get_last());
+            $error = error_get_last();
+            throw new FileCreateError( " {$error['message']}\n {$error['file']}:{$error['line']}", (int)$error['type']);
         }
         $readPointerFile = $this->rotateFile();
         if (!is_file($readPointerFile) && !@touch($readPointerFile)) {
-            throw new FileCreateError(error_get_last());
+            $error = error_get_last();
+            throw new FileCreateError( " {$error['message']}\n {$error['file']}:{$error['line']}", (int)$error['type']);
         }
         $writeFile = $this->writeFile();
         if (!is_file($writeFile) && !@touch($writeFile)) {
-            throw new FileCreateError(error_get_last());
+            $error = error_get_last();
+            throw new FileCreateError( " {$error['message']}\n {$error['file']}:{$error['line']}", (int)$error['type']);
         }
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Exception;
+namespace MessageQueue\Exception;
 
 
 class FileAccessError extends \RuntimeException
