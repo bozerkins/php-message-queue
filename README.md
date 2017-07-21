@@ -1,6 +1,8 @@
 # PHP Message Queue
 A simple php implementation of message queue (or message queue) which 
-can write messages and read messages in a FIFO manner.
+can write messages and read messages in a FIFO manner. 
+
+[![Build Status](https://travis-ci.org/bozerkins/php-message-queue.svg?branch=master)](https://travis-ci.org/bozerkins/php-message-queue)
 
 ## Installation
 ```sh
