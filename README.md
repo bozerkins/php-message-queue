@@ -1,11 +1,9 @@
-[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
-
-
 # PHP Message Queue
 A simple php implementation of message queue (or message queue) which 
 can write messages and read messages in a FIFO manner. 
 
 [![Build Status](https://travis-ci.org/bozerkins/php-message-queue.svg?branch=master)](https://travis-ci.org/bozerkins/php-message-queue)
+[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
 ## Installation
 ```sh
