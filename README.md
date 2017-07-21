@@ -17,7 +17,7 @@ $queue = new \MessageQueue\Queue(
             'dir' => '/var/my-queue-folder',
             'queue' => 'my-queue'
         ]
-    );
+    )
 );
 ```
 
@@ -56,7 +56,7 @@ $queue = new \MessageQueue\Queue(
             'queue' => 'my-queue',
             'rotate_amount' => 200
         ]
-    );
+    )
 );
 ```
 

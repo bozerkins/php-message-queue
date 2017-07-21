@@ -1,8 +1,8 @@
 {
   "name": "bozerkins/php-message-queue",
-  "description": "a simple message queue on php using files",
+  "description": "Simple message queue on php using files",
   "minimum-stability": "stable",
-  "license": "open source",
+  "license": "MIT",
   "authors": [
     {
       "name": "Bogdans Ozerkins",
