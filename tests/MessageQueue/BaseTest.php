@@ -7,7 +7,7 @@
  * Time: 21:43
  */
 
-namespace MessageQueue\Tests;
+namespace MessageQueue;
 
 abstract class BaseTest extends \PHPUnit_Framework_TestCase
 {
