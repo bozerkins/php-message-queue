@@ -9,6 +9,7 @@
 namespace MessageQueue;
 
 
+use Exception\FileCreateError;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Environment
@@ -67,72 +68,57 @@ class Environment
     public function create()
     {
         $queueDir = $this->queueDir();
-        if (!is_dir($queueDir)) {
-            if (!@mkdir($queueDir)) {
-                throw new \ErrorException(error_get_last());
-            }
+        if (!@mkdir($queueDir, 0775, true) && !is_dir($queueDir)) {
+            throw new FileCreateError(error_get_last());
         }
         $readFile = $this->readFile();
-        if (!is_file($readFile)) {
-            if (!@touch($readFile)) {
-                throw new \ErrorException(error_get_last());
-            }
+        if (!is_file($readFile) && !@touch($readFile)) {
+            throw new FileCreateError(error_get_last());
         }
         $readPointerFile = $this->rotateFile();
-        if (!is_file($readPointerFile)) {
-            if (!@touch($readPointerFile)) {
-                throw new \ErrorException(error_get_last());
-            }
+        if (!is_file($readPointerFile) && !@touch($readPointerFile)) {
+            throw new FileCreateError(error_get_last());
         }
         $writeFile = $this->writeFile();
-        if (!is_file($writeFile)) {
-            if (!@touch($writeFile)) {
-                throw new \ErrorException(error_get_last());
-            }
+        if (!is_file($writeFile) && !@touch($writeFile)) {
+            throw new FileCreateError(error_get_last());
         }
     }
 
     public function reset()
     {
-        $fp = fopen($this->readFile(), "r+");
+        $fp = fopen($this->readFile(), "br+");
         ftruncate($fp, 0);
         fclose($fp);
 
-        $fp = fopen($this->rotateFile(), "r+");
+        $fp = fopen($this->rotateFile(), "br+");
         ftruncate($fp, 0);
         fclose($fp);
 
-        $fp = fopen($this->writeFile(), "r+");
+        $fp = fopen($this->writeFile(), "br+");
         ftruncate($fp, 0);
         fclose($fp);
     }
 
     public function remove()
     {
-        $dir = $this->options['dir'];
         $readFile = $this->readFile();
-        if (is_file($readFile)) {
-            if (!@unlink($readFile)) {
-                throw new \ErrorException(error_get_last());
-            }
+        if (is_file($readFile) && !@unlink($readFile)) {
+            throw new FileCreateError(error_get_last());
         }
         $readPointerFile = $this->rotateFile();
-        if (is_file($readPointerFile)) {
-            if (!@unlink($readPointerFile)) {
-                throw new \ErrorException(error_get_last());
-            }
+        if (is_file($readPointerFile) && !@unlink($readPointerFile)) {
+            throw new FileCreateError(error_get_last());
         }
+
         $writeFile = $this->writeFile();
-        if (is_file($writeFile)) {
-            if (!@unlink($writeFile)) {
-                throw new \ErrorException(error_get_last());
-            }
+        if (is_file($writeFile) && !@unlink($writeFile)) {
+            throw new FileCreateError(error_get_last());
         }
+
         $queueDir = $this->queueDir();
-        if (is_dir($queueDir)) {
-            if (!@rmdir($queueDir)) {
-                throw new \ErrorException(error_get_last());
-            }
+        if (is_dir($queueDir) && !@rmdir($queueDir)) {
+            throw new FileCreateError(error_get_last());
         }
     }
 
@@ -140,31 +126,31 @@ class Environment
     {
         $queueDir = $this->queueDir();
         if (!is_dir($queueDir)) {
-            throw new \ErrorException('Queue Directory not created');
+            throw new FileCreateError('Queue Directory not created');
         }
         if (!is_writable($queueDir)) {
-            throw new \ErrorException('Queue Directory not writable');
+            throw new FileCreateError('Queue Directory not writable');
         }
         $readFile = $this->readFile();
         if (!is_file($readFile)) {
-            throw new \ErrorException('Read file not created');
+            throw new FileCreateError('Read file not created');
         }
         if (!is_writable($readFile)) {
-            throw new \ErrorException('Read file not writable');
+            throw new FileCreateError('Read file not writable');
         }
         $readPointerFile = $this->rotateFile();
         if (!is_file($readPointerFile)) {
-            throw new \ErrorException('Read pointer file not created');
+            throw new FileCreateError('Read pointer file not created');
         }
         if (!is_writable($readPointerFile)) {
-            throw new \ErrorException('Read pointer file not writable');
+            throw new FileCreateError('Read pointer file not writable');
         }
         $writeFile = $this->writeFile();
         if (!is_file($writeFile)) {
-            throw new \ErrorException('Write file not created');
+            throw new FileCreateError('Write file not created');
         }
         if (!is_writable($writeFile)) {
-            throw new \ErrorException('Write file not writable');
+            throw new FileCreateError('Write file not writable');
         }
     }
 }

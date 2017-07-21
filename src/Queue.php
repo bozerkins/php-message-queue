@@ -23,6 +23,9 @@ class Queue
             return;
         }
         $f = fopen($this->env->writeFile(), 'a');
+        if(false === $f) {
+            throw new \RuntimeException('Unable to open file for write "ab" '.$this->env->writeFile());
+        }
         flock($f, LOCK_EX);
         foreach($messages as $message) {
             fwrite($f, (string) $message . PHP_EOL);
@@ -34,6 +37,10 @@ class Queue
     public function rotate(int $amount)
     {
         $f = fopen($this->env->rotateFile(), 'r+');
+
+        if(false === $f) {
+            throw new \RuntimeException('Unable to rotate file for write "br+" '.$this->env->writeFile());
+        }
         flock($f, LOCK_EX);
 
         $seek = fgets($f);
@@ -43,6 +50,9 @@ class Queue
 
 
         $f2 = fopen($this->env->writeFile(), 'r');
+        if(false === $f2) {
+            throw new \RuntimeException('Unable to open file for rotate "br" '.$this->env->writeFile());
+        }
         fseek($f2, $seek);
 
         $lines = [];
@@ -55,6 +65,9 @@ class Queue
         }
 
         $f3 = fopen($this->env->readFile(), 'a');
+        if(false === $f3) {
+            throw new \RuntimeException('Unable to open file for rotate "ba" '.$this->env->writeFile());
+        }
         flock($f3, LOCK_EX);
 
         foreach(array_reverse($lines) as $line) {
@@ -93,6 +106,9 @@ class Queue
     public function recycle()
     {
         $f = fopen($this->env->rotateFile(), 'r+');
+        if(false === $f) {
+            throw new \RuntimeException('Unable to open file for write "ab" '.$this->env->writeFile());
+        }
         flock($f, LOCK_EX);
 
         $seek = fgets($f);
@@ -104,6 +120,9 @@ class Queue
 
 
         $f2 = fopen($this->env->writeFile(), 'r+');
+        if(false === $f2) {
+            throw new \RuntimeException('Unable to open file for write "ab" '.$this->env->writeFile());
+        }
         flock($f2, LOCK_EX);
         fseek($f2, $seek);
 
@@ -136,6 +155,9 @@ class Queue
     private function messages(int $amount) : array
     {
         $f = fopen($this->env->readFile(), 'r+');
+        if(false === $f) {
+            throw new \RuntimeException('Unable to open file for messages "br+" '.$this->env->writeFile());
+        }
         flock($f, LOCK_EX);
 
         $pos = -1;
