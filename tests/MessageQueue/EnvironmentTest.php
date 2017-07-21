@@ -7,7 +7,7 @@
  * Time: 21:43
  */
 
-namespace MessageQueue\Tests;
+namespace MessageQueue;
 
 class EnvironmentTest extends BaseTest
 {
