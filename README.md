@@ -56,7 +56,7 @@ $queue = new \MessageQueue\Queue(
             'queue' => 'my-queue',
             'rotate_amount' => 200
         ]
-    );
+    )
 );
 ```
 
