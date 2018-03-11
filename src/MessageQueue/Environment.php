@@ -5,10 +5,21 @@ namespace MessageQueue;
 use MessageQueue\Exception\FileCreateError;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Defines and controls the environment in which the Queue is operated
+ * @package MessageQueue
+ */
 class Environment
 {
+    /**
+     * @var array
+     */
     private $options;
 
+    /**
+     * Environment constructor.
+     * @param array $options
+     */
     public function __construct(array $options = [])
     {
         $resolver = new OptionsResolver();
@@ -16,6 +27,10 @@ class Environment
         $this->options = $resolver->resolve($options);
     }
 
+    /**
+     * Configures and validates basic environment options
+     * @param OptionsResolver $resolver
+     */
     protected function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired('dir');
@@ -28,36 +43,57 @@ class Environment
         ]);
     }
 
+    /**
+     * @return string root directory for queue operations
+     */
     public function dir()
     {
         return rtrim($this->options['dir'], '/');
     }
 
+    /**
+     * @return string directory in which all the specific queue operations happen
+     */
     public function queueDir()
     {
         return rtrim($this->dir() . '/' . $this->options['queue'], '/');
     }
 
+    /**
+     * @return string path to read cache of the queue
+     */
     public function readFile()
     {
         return $this->queueDir() . '/' . $this->options['read_filename'];
     }
 
+    /**
+     * @return string path to the file, that contains information of write-read cache files rotations
+     */
     public function rotateFile()
     {
         return $this->queueDir() . '/' . $this->options['rotate_filename'];
     }
 
+    /**
+     * @return string path to the write cache of the queue
+     */
     public function writeFile()
     {
         return $this->queueDir() . '/' . $this->options['write_filename'];
     }
 
-    public function rotateAmount()
+    /**
+     * @return int amount of records to rotate between write-read cache files per operation
+     */
+    public function rotateAmount() : int
     {
         return $this->options['rotate_amount'];
     }
 
+    /**
+     * create all the necessary directories and files for the Queue to normally operate
+     */
     public function create()
     {
         $queueDir = $this->queueDir();
@@ -82,6 +118,10 @@ class Environment
         }
     }
 
+    /**
+     * clear the queue completely and reset everything
+     * NOTE: make sure not to call this one by accident
+     */
     public function reset()
     {
         $fp = fopen($this->readFile(), "br+");
@@ -97,6 +137,10 @@ class Environment
         fclose($fp);
     }
 
+    /**
+     * remove all the environment files and folders (except for the root one)
+     * NOTE: make sure not to call this by accident
+     */
     public function remove()
     {
         $readFile = $this->readFile();
@@ -119,6 +163,9 @@ class Environment
         }
     }
 
+    /**
+     * Validate that all the necessary environment files and folders are present and operational
+     */
     public function validate()
     {
         $queueDir = $this->queueDir();

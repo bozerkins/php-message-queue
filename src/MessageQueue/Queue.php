@@ -8,15 +8,30 @@
 
 namespace MessageQueue;
 
+/**
+ * Implements basic FIFO queue operations using the Environment provided
+ * @package MessageQueue
+ */
 class Queue
 {
+    /**
+     * @var Environment
+     */
     private $env;
 
+    /**
+     * Queue constructor.
+     * @param Environment $env
+     */
     public function __construct(Environment $env)
     {
         $this->env = $env;
     }
 
+    /**
+     * Appends messages to the end of the queue, in the order of the array keys
+     * @param array $messages array of string type elements
+     */
     public function write(array $messages)
     {
         if (!$messages) {
@@ -34,6 +49,10 @@ class Queue
         fclose($f);
     }
 
+    /**
+     * Rotates records into the read cache
+     * @param int $amount
+     */
     public function rotate(int $amount)
     {
         $f = fopen($this->env->rotateFile(), 'r+');
@@ -86,6 +105,11 @@ class Queue
         fclose($f);
     }
 
+    /**
+     * Reads messages from the queue
+     * @param int $amount
+     * @return array
+     */
     public function read(int $amount) : array
     {
         $messages = $this->messages($amount);
@@ -103,6 +127,10 @@ class Queue
         return $messages;
     }
 
+    /**
+     * Clears rotated records from the write cache, by shifting the new records into the beginning of the file
+     * NOTE: this operation is disk heavy
+     */
     public function recycle()
     {
         $f = fopen($this->env->rotateFile(), 'r+');
@@ -152,6 +180,12 @@ class Queue
         fclose($f);
     }
 
+    /**
+     * Reads the messages from the read cache
+     *
+     * @param int $amount
+     * @return array
+     */
     private function messages(int $amount) : array
     {
         $f = fopen($this->env->readFile(), 'r+');
